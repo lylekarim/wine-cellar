@@ -1,37 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style></style>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script>Javascript</script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../wine-cellar/assets/css/style.css">
     <title>My Wine Cellar Web App</title>
 </head>
+<header>
+    <nav>
+        <form class="form-inline">
+            <div class="form-group mb-2" id="password">
+                <label for="username-input" class="sr-only">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="email@example.com">
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="password-input" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">View My Cellar</button>
+        </form>
+    </nav>
+</header>
+
 <body>
     <div class="container-fluid">
         <div class="jumbotron">
             <h1>My Wine Cellar</h1>
         </div>
-        <div class="header">
-            <p class="login">Login</p>
-            <form>Username/Password</form>
-        </div>
+    </div>
+    <div class="container-fluid">
         <div class="row">
-            <div class="column"></div>
-                <h3>In My Cellar</h3>
-            <div class="column">
-                <h2>Find A Wine</h2>
-                <form>Choose Wine Characteristics</form>
+            <div class="col-sm-4">
+                <h2>In My Cellar</h2>
+                <div class="cellar-highlights"></div>
+                <button type="submit" class="btn btn-primary mb-2">View My Cellar</button>
             </div>
+            <div class="col-md-8">
+                <h3>Find A Wine</h3>
+                <form>
+                    <div class="form-row">
+                        <div class="col-4">
+                            <label for="select-color">Select red, white or both: </label>
+                            <select class="form-control" id="select-color">
+                                <option class="red">Red</option>
+                                <option class="white">White</option>
+                                <option class="both-colors">Both</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <label for="select-varietal">Select varietal(s).</label>
+                            <select multiple class="form-control" id="select-varietal">
+                                <option class="white" id="riesling">Riesling</option>
+                                <option>Pinot Grigio</option>
+                                <option>Gewürztraminer</option>
+                                <option>Viognier</option>
+                                <option>Barbera</option>
+                                <option>Syrah</option>
+                                <option>Pinot Noir</option>
+                                <option>Merlot</option>
+                                <option>Cabernet Sauvignon</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-4">
+                            <label for="select-country">Select the country of origin: </label>
+                            <select multiple class="form-control" id="select-country">
+                                <option class="usa">USA</option>
+                                <option class="south-america">South America</option>
+                                <option class="central-america">Central America</option>
+                                <option class="europe">Europe</option>
+                                <option class="canada">Canada</option>
+                                <option class="middle-east">Middle East</option>
+                                <option class="australia">Australia</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <label for="select-region">Select the vintage year:</label>
+                            <select multiple class="form-control" id="select-varietal">
+                                <option>2018</option>
+                                <option>2017</option>
+                                <option>2016</option>
+                                <option>2015</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <p class="disclaimer">*Use ctl/cmd to select multiple options.</p>
+            </div>
+        </div>
         <div class="row">
-            <h2>Results</h2>
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-8">
+                <hr>
+                <h2>Results</h2>
+                <div class="results-here">
+
+                </div>
+            </div>
         </div>
-        </div>
-      </div>
+    </div>
+    </div>
 </body>
+
 </html>

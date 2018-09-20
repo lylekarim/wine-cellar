@@ -1,4 +1,36 @@
 .jumbotron {
-    background-color: purple;
+    background-color: #551924;
+    color: #e2e5de;
     text-align: center;
+    height: 200px;
+    /* background-image: url("../Images/Screen\ Shot\ 2018-09-16\ at\ 5.33.17\ PM.png");
+    background-repeat: no-repeat; */
+}
+
+.form-inline {
+    width: 300px;
+    float: right;
+    margin-top: 20px;
+    margin-right: 20px;
+    padding: 10px;
+
+}
+
+p {
+    color: #e2e5de;
+}
+
+.btn-primary {
+    background-color: #e2e5de; 
+    border: none;
+    color: #551924;  
+}
+
+.form-control {
+    margin-right: 10px;
+
+}
+.disclaimer {
+    font-size: 12px;
+    color: slategray;
 }
