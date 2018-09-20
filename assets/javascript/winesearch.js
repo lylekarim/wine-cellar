@@ -76,7 +76,7 @@ function updatePage(response) {
   // Loop through and build elements for the defined number of wines
   for (var i = 0; i < parsed.wines.length; i++) {
     // Get specific wine info for current index
-    var wineName = parsed.wines[i].name;
+    // var wineName = parsed.wines[i].name;
     var winePrice = parsed.wines[i].price;
     var wineRegion = parsed.wines[i].region;
     var wineYear = parsed.wines[i].vintage;
@@ -97,7 +97,7 @@ function updatePage(response) {
     $("#wine-section").append($wineListItem);
 
     // Creating a paragraph tag with the result item's properties
-    var pName = $("<p>").text("Wine Name: " + wineName);
+    // var pName = $("<p>").text("Wine Name: " + wineName);
     var pPrice = $("<p>").text("Wine Price: " + winePrice);
     var pRegion = $("<p>").text("Wine Region: " + wineRegion);
     var pColor = $("<p>").text("Wine Color: " + wineColor);
@@ -106,7 +106,7 @@ function updatePage(response) {
 
     // Appending the paragraph and image tag to the wineSection
 
-    $($wineListItem).append(pName);
+    // $($wineListItem).append(pName);
     $($wineListItem).append(pPrice);
     $($wineListItem).append(pRegion);
     $($wineListItem).append(pColor);
@@ -131,14 +131,14 @@ $("#run-search").on("click", function (event) {
   clear();
 
    // Grabs user input
-   var wineName = $("#input-wine-name").val().trim();
-   var wineRegion = $("#input-wine-region").val().trim();
-   var wineYear = $("#input-wine-year").val().trim();
-   var wineType = $("#input-wine-color").val().trim();
+//    var wineName = $("#input-wine-name").val();
+   var wineRegion = $("#input-wine-region").val();
+   var wineYear = $("#input-wine-year").val();
+   var wineType = $("#input-wine-color").val();
  
   // Creates local "temporary" object for holding wine data
   var newWine = {
-    name: wineName,
+    // name: wineName,
     region: wineRegion,
     year: wineYear,
     type: wineType
@@ -148,7 +148,7 @@ $("#run-search").on("click", function (event) {
 database.ref().push(newWine);
 
 // Logs everything to console
-console.log(newWine.name);
+// console.log(newWine.name);
 console.log(newWine.region);
 console.log(newWine.year);
 console.log(newWine.type);
