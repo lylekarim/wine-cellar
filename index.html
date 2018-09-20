@@ -7,15 +7,18 @@
     <title>Getcher Wine</title>
 
     <!-- Firebase Reference -->
-  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style></style>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script>Javascript</script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    
     <title>My Wine Cellar Web App</title>
 </head>
 
@@ -24,167 +27,167 @@
 
 
     <!-- Displayed Data -->
-   
-   
+
+
     <div id="wine-count"></div>
     <!DOCTYPE html>
     <html lang="en">
-    
+
     <head>
-      <meta charset="UTF-8">
-      <title>Snooth Wine Search</title>
-      <!-- Bootstrap CSS CDN  -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
-    
-      <!-- Font Awesome CSS Icons (For cool glyphicons) -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-    
-      <!-- Style to fix the issue of text extending past card length -->
-      <style>
-        .card-body a {
-          word-break: break-all;
-        }
-    
-        .wineHeadline {
-          line-height: 1.5;
-        }
-      </style>
+        <meta charset="UTF-8">
+        <title>Snooth Wine Search</title>
+        <!-- Bootstrap CSS CDN  -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+
+        <!-- Font Awesome CSS Icons (For cool glyphicons) -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+        <!-- Style to fix the issue of text extending past card length -->
+        <style>
+            .card-body a {
+                word-break: break-all;
+            }
+
+            .wineHeadline {
+                line-height: 1.5;
+            }
+        </style>
     </head>
-    
+
     <body>
-    
-      <!-- Main Bootstrap Search -->
-      <div class="container">
-    
-        <!-- Jumbotron for Title -->
-        <div class="jumbotron" style="background-color: rgb(194, 196, 201) ; color: white;">
-          <h1 class="text-center">
-            <strong>
-              <i class="fa fa-wine-o"></i> Wine Search</strong>
-          </h1>
-        </div>
-    
-        <!-- Row for Searching SnoothAPI -->
-        <div class="row">
-          <div class="col-sm-12">
-            <br>
-            <!-- First card is for handling the search parameters -->
-            <div class="card">
-              <div class="card-header">
-                <strong>
-                  <i class="fa fa-list-alt"></i> Search Parameters</strong>
-              </div>
-              <div class="card-body">
-    
-                <!-- Here we create an HTML Form for handling the inputs-->
-                <form role="form">
-    
-                  <!-- Here we create the text box for capturing the search term-->
-                  
-                  <div class="form-group">
-                    <label for="search">Wine Name:</label>
-                    <input type="text" class="form-control" id="input-wine-name">
-                  </div>
-                  <div class="form-group">
-                    <label for="search">Wine Color:</label>
-                    <input type="text" class="form-control" id="input-wine-color">
-                  </div>
-                    <!-- Here we create the text box for capturing the search term-->
-                    <div class="form-group">
-                        <label for="search">Wine Region:</label>
-                        <input type="text" class="form-control" id="input-wine-region">
-                      </div>
-                        <!-- Here we create the text box for capturing the search term-->
-                  <div class="form-group">
-                    <label for="search">Wine Year:</label>
-                    <input type="text" class="form-control" id="input-wine-year">
-                  </div>
-    
-                  <!-- Here we capture the number of records that the user wants to retrieve  -->
-                  <div class="form-group">
-                    <label for="pwd">Number of Records to Retrieve:</label>
-                    <select id="input-wine-count" class="custom-select" aria-labelledby="dropdownMenuButton">
-                      <option value="1">1</option>
-                      <!-- Setting the option for 5 as default -->
-                      <option value="5" selected>5</option>
-                      <option value="10">10</option>
-                    </select>
-                  </div>
-    
-    
-                  <!-- Here we have our final submit button -->
-                  <button type="submit" class="btn btn-default" id="run-search">
-                    <i class="fa fa-search"></i> Search</button>
-                  <button class="btn btn-default" id="clear-all">
-                    <i class="fa fa-trash"></i> Clear Results</button>
-    
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        <!-- This row will handle all of the retrieved wines -->
-        <div class="row">
-          <div class="col-sm-12">
-            <br>
-    
-            <!-- This card will initially be made up of a card and wells for each of the wines retrieved -->
-            <div class="card">
-    
-              <!-- card Heading for the retrieved wines box -->
-              <div class="card-header">
-                <strong>
-                  <i class="fa fa-table"></i> Search Results</strong>
-              </div>
-    
-              <!-- This main card will hold each of the resulting wines -->
-              <div class="card-body" id="wine-section">
-              </div>
+
+        <!-- Main Bootstrap Search -->
+        <div class="container">
+
+            <!-- Jumbotron for Title -->
+            <div class="jumbotron" style="background-color: rgb(194, 196, 201) ; color: white;">
+                <h1 class="text-center">
+                    <strong>
+                        <i class="fa fa-wine-o"></i> Wine Search</strong>
+                </h1>
             </div>
 
-            <div class="card">
-    
-                <!-- card Heading for the retrieved wines box -->
-                <div class="card-header">
-                  <strong>
-                    <i class="fa fa-wine"></i>My Wine Cellar</strong>
+            <!-- Row for Searching SnoothAPI -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <br>
+                    <!-- First card is for handling the search parameters -->
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>
+                                <i class="fa fa-list-alt"></i> Search Parameters</strong>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Here we create an HTML Form for handling the inputs-->
+                            <form role="form">
+
+                                <!-- Here we create the text box for capturing the search term-->
+
+                                <div class="form-group">
+                                    <label for="search">Wine Name:</label>
+                                    <input type="text" class="form-control" id="input-wine-name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="search">Wine Color:</label>
+                                    <input type="text" class="form-control" id="input-wine-color">
+                                </div>
+                                <!-- Here we create the text box for capturing the search term-->
+                                <div class="form-group">
+                                    <label for="search">Wine Region:</label>
+                                    <input type="text" class="form-control" id="input-wine-region">
+                                </div>
+                                <!-- Here we create the text box for capturing the search term-->
+                                <div class="form-group">
+                                    <label for="search">Wine Year:</label>
+                                    <input type="text" class="form-control" id="input-wine-year">
+                                </div>
+
+                                <!-- Here we capture the number of records that the user wants to retrieve  -->
+                                <div class="form-group">
+                                    <label for="pwd">Number of Records to Retrieve:</label>
+                                    <select id="input-wine-count" class="custom-select" aria-labelledby="dropdownMenuButton">
+                                        <option value="1">1</option>
+                                        <!-- Setting the option for 5 as default -->
+                                        <option value="5" selected>5</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+
+
+                                <!-- Here we have our final submit button -->
+                                <button type="submit" class="btn btn-default" id="run-search">
+                                    <i class="fa fa-search"></i> Search</button>
+                                <button class="btn btn-default" id="clear-all">
+                                    <i class="fa fa-trash"></i> Clear Results</button>
+
+                            </form>
+                        </div>
+                    </div>
                 </div>
-      
-                <!-- This main card will hold each of the resulting wines -->
-                <div class="card-body">
-                        <table class="table table-sm table-hover table-striped" id='wine-table'>
+            </div>
+
+            <!-- This row will handle all of the retrieved wines -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <br>
+
+                    <!-- This card will initially be made up of a card and wells for each of the wines retrieved -->
+                    <div class="card">
+
+                        <!-- card Heading for the retrieved wines box -->
+                        <div class="card-header">
+                            <strong>
+                                <i class="fa fa-table"></i> Search Results</strong>
+                        </div>
+
+                        <!-- This main card will hold each of the resulting wines -->
+                        <div class="card-body" id="wine-section">
+                        </div>
+                    </div>
+
+                    <div class="card">
+
+                        <!-- card Heading for the retrieved wines box -->
+                        <div class="card-header">
+                            <strong>
+                                <i class="fa fa-wine"></i>My Wine Cellar</strong>
+                        </div>
+
+                        <!-- This main card will hold each of the resulting wines -->
+                        <div class="card-body">
+                            <table class="table table-sm table-hover table-striped" id='wine-table'>
                                 <thead>
                                     <tr>
                                         <th class="col">Wine Name</th>
                                         <th class="col">Region</th>
                                         <th class="col">Year</th>
                                         <th class="col">Type</th>
-                                      
-        
+
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
                 </div>
-              </div>
-          </div>
+            </div>
+
+
+
         </div>
-    
-    
-    
-      </div>
-    
-     
 
-    <!-- ====================================================================== -->
 
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <script src="assets/javascript/winesearch.js"></script>
+        <!-- ====================================================================== -->
 
-</body>
+        <!-- jQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-</html>
+        <script src="assets/javascript/winesearch.js"></script>
+
+    </body>
+
+    </html>
