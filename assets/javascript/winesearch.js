@@ -205,5 +205,41 @@ $("#clear-all").on("click", clear);
 
 
 
+// begin login scripts
 
+// login with Google account
+function googleLogin() {
+var googleProvider = new firebase.auth.GoogleAuthProvider();
+firebase.auth().signInWithRedirect(googleProvider);
+}
 
+// login with facebook
+function facebookLogin() {
+  var facebookProvider = new firebase.auth.FacebookAuthProvider();
+  firebase.auth().signInWithRedirect(facebookProvider);
+}
+
+// create user for wine-cellar app
+function createUser() {
+  var email = $("#inputEmailCreate").val();
+  var password = $("#inputPasswordCreate").val();
+  console.log(email, password);
+  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      window.alert(errorMessage);
+  });
+}
+
+// login with wine-cellar account
+function login() {
+  var emailSign = $("#username").val();
+  var passwordSign = $("#password").val();
+  firebase.auth().signInWithEmailAndPassword(emailSign, passwordSign).catch(function (error) {
+      // Handle Errors here.
+      var errorCode2 = error.code;
+      var errorMessage2 = error.message;
+      window.alert(errorMessage2);
+  });
+}
