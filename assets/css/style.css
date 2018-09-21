@@ -1,22 +1,37 @@
+.form-inline {
+    width: 300px;
+    float: right;
+    padding: 10px;
+}
+
+.username {
+    color: #e2e5de;
+    margin-right: 0px;
+    width: 7em;
+}
+
+.password {
+    color: #e2e5de;
+    width: 7em;
+}
+
 .jumbotron {
     background-color: #551924;
     color: #e2e5de;
     text-align: center;
     height: 200px;
-    /* background-image: url("../Images/Screen\ Shot\ 2018-09-16\ at\ 5.33.17\ PM.png");
-    background-repeat: no-repeat; */
 }
 
-.form-inline {
-    width: 300px;
-    float: right;
-    margin-top: 20px;
-    margin-right: 20px;
+.container-fluid {
     padding: 10px;
-
+    margin: 20px;
+}
+.nav {
+    margin-bottom: 0px;
 }
 
-p {
+
+.p {
     color: #e2e5de;
 }
 
@@ -24,6 +39,24 @@ p {
     background-color: #e2e5de; 
     border: none;
     color: #551924;  
+    
+}
+
+.btn-primary:hover {
+    animation-name: background-color;
+    background-color: #551924;
+    color: #e2e5de;
+}
+
+#login-button {
+    float: right; 
+}
+
+#login-button:hover {
+    animation-name: background-color;
+    background-color: #1d1718;
+    color: #e2e5de;
+    
 }
 
 .form-control {
@@ -33,4 +66,9 @@ p {
 .disclaimer {
     font-size: 12px;
     color: slategray;
+}
+
+.results-here {
+    background-color: #cfd0cede;
+    color: #551924;
 }
