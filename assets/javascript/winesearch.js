@@ -205,5 +205,76 @@ $("#clear-all").on("click", clear);
 
 
 
+// begin login scripts
+var userExists = false;
+// is a user logged in?
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+      // if yes, show cellar
+      $("#main-page").show();
+      $("#sign-in-div").hide();
+      $("#create-user-div").hide();
 
+  } else {
+      // if not show signin page
+      $("#main-page").hide();
+      $("#sign-in-div").show();
+      $("#create-user-div").hide();
 
+  }
+});
+
+function signInToggle() {
+  if (userExists) {
+      $("#main-page").hide();
+      $("#sign-in-div").show();
+      $("#create-user-div").hide();
+      userExists = false;
+  } else {
+      $("#main-page").hide();
+      $("#sign-in-div").hide();
+      $("#create-user-div").show();
+      userExists = true;
+  }
+
+}
+
+// login with Google account
+function googleLogin() {
+var googleProvider = new firebase.auth.GoogleAuthProvider();
+firebase.auth().signInWithRedirect(googleProvider);
+}
+
+// login with facebook
+function facebookLogin() {
+  var facebookProvider = new firebase.auth.FacebookAuthProvider();
+  firebase.auth().signInWithRedirect(facebookProvider);
+}
+
+// create user for wine-cellar app
+function createUser() {
+  var email = $("#inputEmailCreate").val();
+  var password = $("#inputPasswordCreate").val();
+  console.log(email, password);
+  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      window.alert(errorMessage);
+  });
+}
+
+// login with wine-cellar account
+function login() {
+  var emailSign = $("#username").val();
+  var passwordSign = $("#password").val();
+  firebase.auth().signInWithEmailAndPassword(emailSign, passwordSign).catch(function (error) {
+      // Handle Errors here.
+      var errorCode2 = error.code;
+      var errorMessage2 = error.message;
+      window.alert(errorMessage2);
+  });
+}
+
+$("#create-account-toggle").on("click", signInToggle);
+$("#sign-in-toggle").on("click", signInToggle);
