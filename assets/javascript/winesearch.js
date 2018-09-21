@@ -49,15 +49,14 @@ function buildQueryURL() {
 
   queryParams.vintage = $("#input-wine-year")
     .val()
-    .trim();
+  
 
   queryParams.region = $("#input-wine-region")
     .val()
-    .trim();
-
+    
   queryParams.n = $("#input-wine-count")
     .val()
-    .trim();
+   
 
 
 
@@ -72,6 +71,8 @@ function buildQueryURL() {
 function updatePage(response) {
   var json = response;
   var parsed = JSON.parse(json)
+console.log(response);
+
 
   // Loop through and build elements for the defined number of wines
   for (var i = 0; i < parsed.wines.length; i++) {
@@ -145,7 +146,7 @@ $("#run-search").on("click", function (event) {
 };
 
 // Uploads Wine data to the database
-database.ref().push(newWine);
+// database.ref().push(newWine);
 
 // Logs everything to console
 // console.log(newWine.name);
@@ -161,7 +162,9 @@ console.log(newWine.type);
   $.ajax({
     url: queryURL,
     method: "GET"
-  }).then(updatePage);
+  }).then(function(response) {
+      console.log(response);
+  });
 });
 
  // 3. Create Firebase event for adding wine to the database and a row in the html when a user adds an entry
