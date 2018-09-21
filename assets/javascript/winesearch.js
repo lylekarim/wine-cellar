@@ -253,8 +253,8 @@ function facebookLogin() {
 
 // create user for wine-cellar app
 function createUser() {
-  var email = $("#inputEmailCreate").val();
-  var password = $("#inputPasswordCreate").val();
+  var email = $("#username-input-create").val();
+  var password = $("#password-input-create").val();
   console.log(email, password);
   firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
       // Handle Errors here.
@@ -266,8 +266,8 @@ function createUser() {
 
 // login with wine-cellar account
 function login() {
-  var emailSign = $("#username").val();
-  var passwordSign = $("#password").val();
+  var emailSign = $("#username-input").val();
+  var passwordSign = $("#password-input").val();
   firebase.auth().signInWithEmailAndPassword(emailSign, passwordSign).catch(function (error) {
       // Handle Errors here.
       var errorCode2 = error.code;
@@ -280,5 +280,7 @@ $("#create-account-toggle").on("click", signInToggle);
 $("#sign-in-toggle").on("click", signInToggle);
 $("#sign-in").on("click", login);
 $("#create-user").on("click", createUser);
+$("#sign-in-google").on("click", googleLogin);
+$("#sign-in-facebook").on("click", facebookLogin);
 
 });

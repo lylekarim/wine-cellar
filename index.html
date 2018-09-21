@@ -27,7 +27,8 @@
 </head>
 
 <body>
-    <div class="form-inline" id="sign-in-div">
+    <div id="sign-in-div">
+
         <div class="form-group mb-2" id="username">
             <label for="username-input" class="sr-only">Username</label>
             <input type="text" class="form-control" id="username-input" placeholder="email@example.com">
@@ -36,12 +37,20 @@
             <label for="password-input" class="sr-only">Password</label>
             <input type="password" class="form-control" id="password-input" placeholder="Password">
         </div>
+
         <button type="submit" class="btn btn-lg btn-primary btn-block" id="sign-in">View My Cellar</button>
-        <p>Don't have an account?</p>
-        <button class="btn btn-lg btn-primary btn-block" id="create-account-toggle">Create Account</button>
+        <button type="submit" class="btn btn-lg btn-primary btn-block" id="sign-in-google">Sign in with Google</button>
+        <button type="submit" class="btn btn-lg btn-primary btn-block" id="sign-in-facebook">Sign in with Facebook</button>
+        <p>Don't have an account?
+            <button class="btn btn-lg btn-primary btn-block" id="create-account-toggle">Create Account</button>
+        </p>
 
     </div>
     <div id="create-user-div">
+        <div class="form-group mb-2" id="users-name">
+            <label for="name-field" class="sr-only">Your Name</label>
+            <input type="text" class="form-control" id="name-field" placeholder="John Doe">
+        </div>
         <div class="form-group mb-2" id="username-create">
             <label for="username-input-create" class="sr-only">Username</label>
             <input type="text" class="form-control" id="username-input-create" placeholder="email@example.com">
@@ -61,6 +70,7 @@
             <div class="jumbotron">
                 <h1>My Wine Cellar</h1>
             </div>
+            <button class="btn btn-lg btn-primary" id="logout">Logout</button>
         </div>
         <div class="container-fluid">
             <div class="row">
@@ -74,8 +84,6 @@
                                     <th class="col">Region</th>
                                     <th class="col">Year</th>
                                     <th class="col">Color</th>
-
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -87,9 +95,13 @@
                     <button type="submit" class="btn btn-primary mb-2">View My Cellar</button>
                 </div>
                 <div class="col-md-8">
-                    <h3>Find A Wine</h3>
+                    <h3>Find Your Wine</h3>
                     <form>
                         <div class="form-row">
+                            <div class="col-6">
+                                <label for="input-wine-name">Name of Wine: </label>
+                                <input type="text" class="form-control" id="input-wine-name">
+                            </div>
                             <div class="col-4">
                                 <label for="input-wine-color">Select red, white or both: </label>
                                 <select class="form-control" id="input-wine-color">
@@ -98,66 +110,23 @@
                                     <option class="both-colors">Both</option>
                                 </select>
                             </div>
-                            <div class="col-4">
-                                <label for="select-varietal">Select varietal(s).</label>
-                                <select multiple class="form-control" id="select-varietal">
-                                    <option class="white" id="riesling">Riesling</option>
-                                    <option>Pinot Grigio</option>
-                                    <option>Gewürztraminer</option>
-                                    <option>Viognier</option>
-                                    <option>Barbera</option>
-                                    <option>Syrah</option>
-                                    <option>Pinot Noir</option>
-                                    <option>Merlot</option>
-                                    <option>Cabernet Sauvignon</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-4">
-                                <label for="input-wine-region">Select the region of origin: </label>
-                                <select multiple class="form-control" id="input-wine-region">
-                                    <option class="usa">USA</option>
-                                    <option class="south-america">South America</option>
-                                    <option class="central-america">Central America</option>
-                                    <option class="europe">Europe</option>
-                                    <option class="canada">Canada</option>
-                                    <option class="middle-east">Middle East</option>
-                                    <option class="australia">Australia</option>
-                                </select>
-                            </div>
-                            <div class="col-4">
-                                <label for="#input-wine-year">Select the vintage year:</label>
-                                <select multiple class="form-control" id="#input-wine-year">
-                                    <option>2018</option>
-                                    <option>2017</option>
-                                    <option>2016</option>
-                                    <option>2015</option>
-                                </select>
-                            </div>
                         </div>
                         <button id="run-search" type="submit" class="btn btn-primary mb-2">Search Wines</button>
+                        <hr>
+                        <div class="form-row">
+                            <div class="row">
+                                <div class="col-md-8">
+
+                                    <h2>Results</h2>
+                                    <div id="wine-section" class="results-here">
+                                    </div>
+                                </div>
+                            </div>
                     </form>
-                    <p class="disclaimer">*Use ctl/cmd to select multiple options.</p>
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-
-                </div>
-                <div class="col-md-8">
-                    <hr>
-                    <h2>Results</h2>
-                    <div id="wine-section" class="results-here">
-
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="assets/javascript/winesearch.js"></script>
+        <script src="assets/javascript/winesearch.js"></script>
 </body>
 
 </html>
