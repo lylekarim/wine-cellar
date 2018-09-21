@@ -258,6 +258,7 @@ $(document).ready(function () {
   function createUser() {
     var email = $("#username-input-create").val();
     var password = $("#password-input-create").val();
+    var newUserName = $("#name-field").val();
     console.log(email, password);
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
       // Handle Errors here.
@@ -265,6 +266,9 @@ $(document).ready(function () {
       var errorMessage = error.message;
       window.alert(errorMessage);
     });
+    $("#username-input-create").val("");
+    $("#password-input-create").val("");
+    $("#name-field").val("");
   }
 
   // login with wine-cellar account
@@ -277,6 +281,8 @@ $(document).ready(function () {
       var errorMessage2 = error.message;
       window.alert(errorMessage2);
     });
+    $("#username-input").val("");
+    $("#password-input").val("");
   }
 
   function logout() {
