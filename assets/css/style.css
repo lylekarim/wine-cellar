@@ -8,12 +8,9 @@
 }
 
 .form-inline {
-    width: 300px;
-    float: right;
-    margin-top: 20px;
-    margin-right: 20px;
-    padding: 10px;
-
+    text-align: center;
+    margin: auto;
+    width: 25%;
 }
 
 p {
