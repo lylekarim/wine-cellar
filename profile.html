@@ -44,7 +44,6 @@
         <p>Don't have an account?
             <button class="btn btn-lg btn-primary btn-block" id="create-account-toggle">Create Account</button>
         </p>
-
     </div>
     <div id="create-user-div">
         <h1 class="h3 mb-3 font-weight-normal">Create an Account</h1>
@@ -88,17 +87,15 @@
                 </div>
                 <div class="col-lg-4">
                     <h4>My Credentials</h4>
-                    <div class="form-group mb-2" id="username-create">
-                        <label for="username-input-create" class="sr-only">Username</label>
-                        <input type="text" class="form-control" id="username-input-create" placeholder="email@example.com">
+                    <div>
+                        <p>Username: <span id="username-display"></span></p>
                     </div>
-                    <div class="form-group mb-2" id="password-create">
-                        <label for="password-input-create" class="sr-only">Password</label>
-                        <input type="password" class="form-control" id="password-input-create" placeholder="Password">
+                    <div>
+                        <p>Email: <span id="email-display"></span></p>
                     </div>
                 </div>
                 <div class="col-lg-2">
-                    <p>Reset Username and Password</p>
+                    <p>Reset Password:</p>
                     <button type="submit" class="btn btn-lg btn-primary btn-block" id="reset-credentials">Reset</button>
                 </div>
             </div>
@@ -152,73 +149,46 @@
                         </label>
                     </div>
                 </div>
+                <div class="col-lg-4">
+                    <button id="update-profile">Update</button>
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-8" id="view-cellar"></div>
                 <div class="col-lg-4" id="view-graph"></div>
             </div>
         </div>
-        <div id="main-page">
-            <div class="container-fluid">
-                <div class="jumbotron">
-                    <h1>My Wine Cellar</h1>
-                </div>
-                <a href="index.html"><button class="btn btn-lg btn-primary" id="switch">Home Page</button></a>
+    </div>
+    <div id="main-page">
+        <div class="container-fluid">
+            <div class="jumbotron">
+                <h1>My Wine Cellar</h1>
             </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h2>In My Cellar</h2>
-                        <div class="cellar-highlights">
-                            <table class="table table-sm table-hover table-striped" id='wine-table'>
-                                <thead>
-                                    <tr>
-                                        <th class="col">Wine Name</th>
-                                        <th class="col">Region</th>
-                                        <th class="col">Year</th>
-                                        <th class="col">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                        <button type="submit" class="btn btn-primary mb-2">View My Cellar</button>
-                    </div>
-                    <div class="col-md-8">
-                        <h3>Find Your Wine</h3>
-                        <form>
-                            <div class="form-row">
-                                <div class="col-6">
-                                    <label for="input-wine-name">Name of Wine: </label>
-                                    <input type="text" class="form-control" id="input-wine-name">
-                                </div>
-                                <div class="col-4">
-                                    <label for="input-wine-color">Select red, white or both: </label>
-                                    <select class="form-control" id="input-wine-color">
-                                        <option class="red">Red</option>
-                                        <option class="white">White</option>
-                                        <option class="both-colors">Both</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button id="run-search" type="submit" class="btn btn-primary mb-2">Search Wines</button>
-                            <hr>
-                            <div class="form-row">
-                                <div class="row">
-                                    <div class="col-md-8">
-
-                                        <h2>Results</h2>
-                                        <div id="wine-section" class="results-here">
-                                        </div>
-                                    </div>
-                                </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <script src="assets/javascript/winesearch.js"></script>
+            <a href="index.html"><button class="btn btn-lg btn-primary" id="switch">Home Page</button></a>
         </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>In My Cellar</h2>
+                    <div class="cellar-highlights">
+                        <table class="table table-sm table-hover table-striped" id='wine-table'>
+                            <thead>
+                                <tr>
+                                    <th class="col">Wine Name</th>
+                                    <th class="col">Region</th>
+                                    <th class="col">Year</th>
+                                    <th class="col">Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="assets/javascript/winesearch.js"></script>
+    </div>
 </body>
 
 </html>

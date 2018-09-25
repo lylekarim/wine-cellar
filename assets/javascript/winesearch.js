@@ -217,19 +217,24 @@ $(document).ready(function () {
       $("#main-page").show();
       $("#sign-in-div").hide();
       $("#create-user-div").hide();
-      var getName, getEmail;
-      getName = "John Doe";
-      getEmail = "email";
-      console.log(user);
-      user.updateProfile({
-        displayName: getName,
-        email: getEmail
-      }).then(function () {
-        // Update successful.
-      }).catch(function (error) {
-        // An error happened.
-        window.alert(error);
+      $("#username-display").text(user.displayName);
+      $("#email-display").text(user.email);
+      database.ref().child("users").child(user.uid).set({
+        name: user.displayName
       });
+      // var getName, getEmail;
+      // getName = "John Doe";
+      // getEmail = "email";
+      // console.log(user);
+      // user.updateProfile({
+      //   displayName: getName,
+      //   email: getEmail
+      // }).then(function () {
+      //   // Update successful.
+      // }).catch(function (error) {
+      //   // An error happened.
+      //   window.alert(error);
+      // });
       console.log(user.displayName);
 
     } else {
@@ -280,6 +285,16 @@ $(document).ready(function () {
       var errorMessage = error.message;
       window.alert(errorMessage);
     });
+    firebase.auth().onAuthStateChanged(function (user) {
+      user.updateProfile({
+        displayName: newUserName
+      }).then(function () {
+        // Update successful.
+      }).catch(function (error) {
+        // An error happened.
+        window.alert(error);
+      });
+    });
     $("#username-input-create").val("");
     $("#password-input-create").val("");
     $("#name-field").val("");
@@ -297,13 +312,6 @@ $(document).ready(function () {
     });
     $("#username-input").val("");
     $("#password-input").val("");
-  }
-
-  function getProfile() {
-    $("#create-profile-div").show();
-    $("#main-page").hide();
-    $("#sign-in-div").hide();
-    $("#create-user-div").hide();
   }
 
   function manuallyUpdateProfile() {
@@ -336,13 +344,16 @@ $(document).ready(function () {
   }
 
   function reset() {
+    var userToReset = firebase.auth().currentUser;
     var auth = firebase.auth();
-    var emailAddress = "user@example.com";
+    var emailAddress = userToReset.email;
 
     auth.sendPasswordResetEmail(emailAddress).then(function () {
       // Email sent.
+      window.alert("Password reset email has been sent.")
     }).catch(function (error) {
       // An error happened.
+      window.alert(error);
     });
   }
 
@@ -357,5 +368,6 @@ $(document).ready(function () {
   // update profile click handler manuallyUpdateProfile
   // show profile click handler getProfile
   $("#reset-credentials").on("click", reset);
+  $("#update-profile").on("click", manuallyUpdateProfile);
 
 });
