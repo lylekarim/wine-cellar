@@ -15,9 +15,11 @@
 // winery: "Pavilion WInery"
 // winery_id: "pavilion-winery"
 
-$(document).ready(function () {
-
-
+$(document).ready(function() {
+  var wineReturned;
+  var userID;
+  var userName;
+  var arrayOfStores;
   // 1. Initialize Firebase
   var config = {
     apiKey: "AIzaSyAA89Se884k_LhKKY9GFcVOpRqFZp9aCEE",
@@ -32,210 +34,166 @@ $(document).ready(function () {
 
   var database = firebase.database();
 
+  var databaseQuery = database.ref().orderByKey();
+  databaseQuery.once("value").then(function(snapshot) {
+    console.log(Object.keys(snapshot.val()));
+  });
 
   //snooth
-  function buildQueryURL() {
+  function buildQueryURL(input) {
     // queryURL is the url we'll use to query the API
     var queryURL = "http://api.snooth.com/wines/?";
 
     // Begin building an object to contain our API call's query parameters
     // Set the API key
     var queryParams = {
-      "akey": "b0jsh3j9ckyksr2k5xu3t8mgd6tqs5wqcseanmyg1ikcnv9j",
-      "q": "wine",
-      "a": "0"
+      akey: "b0jsh3j9ckyksr2k5xu3t8mgd6tqs5wqcseanmyg1ikcnv9j",
+      q: input.name,
+      color: input.type,
+      n: 10
     };
 
-    // Grab text the user typed into the search input, add to the queryParams object
-    queryParams.color = $("#input-wine-color")
-      .val()
-      .trim();
-
-    queryParams.vintage = $("#input-wine-year")
-      .val()
-      .trim();
-
-    queryParams.region = $("#input-wine-region")
-      .val()
-      .trim();
-
-    queryParams.n = $("#input-wine-count")
-      .val()
-      .trim();
-
-
-
-
-    // Logging the URL so we have access to it for troubleshooting
-    console.log("---------------\nURL: " + queryURL + "\n---------------");
-    console.log(queryURL + $.param(queryParams));
     return queryURL + $.param(queryParams);
   }
+  //This sets up the api call for the stores in the users area
+  function storeURL(input) {
+    var storeQuery = "http://api.snooth.com/stores/?";
 
+    // Begin building an object to contain our API call's query parameters
+    // Set the API key
+    var queryParams = {
+      akey: "b0jsh3j9ckyksr2k5xu3t8mgd6tqs5wqcseanmyg1ikcnv9j",
+      c: "US",
+      z: $("#zip-code").val()
+    };
+    return storeQuery + $.param(queryParams);
+  }
 
-  function updatePage(response) {
-    var json = response;
-    var parsed = JSON.parse(json)
+  $("#run-search").on("click", function(event) {
+    event.preventDefault();
 
-    // Loop through and build elements for the defined number of wines
-    for (var i = 0; i < parsed.wines.length; i++) {
-      // Get specific wine info for current index
-      // var wineName = parsed.wines[i].name;
-      var winePrice = parsed.wines[i].price;
-      var wineRegion = parsed.wines[i].region;
-      var wineYear = parsed.wines[i].vintage;
-      var wineColor = parsed.wines[i].type;
+    var storeLocationURL = storeURL();
+    console.log(storeLocationURL);
+    //This will call the local stores and save the results in the an array
+    $.ajax({
+      url: storeLocationURL,
+      method: "GET"
+    }).then(function(response) {
+      arrayOfStores = JSON.parse(response);
+      console.log(arrayOfStores);
+    });
+    //Then when the array is created the following api will use the store ids to build a button to check its availability
 
-      // Increase the wineCount (track wine # - Yearing at 1)
-      var wineCount = i + 1;
+    var wineType = $("#input-wine-color").val();
+    var wineName = $("#input-wine-name").val();
 
-      // Create the  list group to contain the wines and add the wine content for each
-      var $wineList = $("<ul>");
-      $wineList.addClass("list-group");
+    var holdingObject = {
+      name: wineName,
+      type: wineType
+    };
+    var queryURL = buildQueryURL(holdingObject);
 
-      var $wineListItem = $("<li class='list-group-item wineHeadline'>");
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response) {
+      wineReturned = JSON.parse(response);
+      console.log(wineReturned);
+      console.log("hello");
+      updatePage(wineReturned.wines);
+    });
+  });
 
+  //This will add the returned wines to a table the user can select from
+  function updatePage(input) {
+    console.log("update page");
 
-      // Add the newly created element to the DOM
-      $("#wine-section").append($wineList);
-      $("#wine-section").append($wineListItem);
+    for (var i = 0; i < input.length; i++) {
+      console.log(input[i]);
+      var fillInRow = $("<tr>");
+      fillInRow.attr("data-name", input[i].name);
 
-      // Creating a paragraph tag with the result item's properties
-      // var pName = $("<p>").text("Wine Name: " + wineName);
-      var pPrice = $("<p>").text("Wine Price: " + winePrice);
-      var pRegion = $("<p>").text("Wine Region: " + wineRegion);
-      var pColor = $("<p>").text("Wine Color: " + wineColor);
-      var pYear = $("<p>").text("Wine Year: " + wineYear);
+      var wineNameTD = $("<td>");
+      wineNameTD.attr("class");
+      wineNameTD.text(input[i].name);
 
+      var wineVintageTD = $("<td>");
+      if (input[i].vintage.length > 2) {
+        wineVintageTD.text(input[i].vintage);
+      } else {
+        wineVintageTD.text("Not Available");
+      }
 
-      // Appending the paragraph and image tag to the wineSection
+      var inputNumber = $("<input>");
+      inputNumber.attr("type", "number");
+      inputNumber.attr("id", "name-" + i);
+      inputNumber.attr("class", i);
+      var selectedNumber = $("<td>").append(inputNumber);
 
-      // $($wineListItem).append(pName);
-      $($wineListItem).append(pPrice);
-      $($wineListItem).append(pRegion);
-      $($wineListItem).append(pColor);
-      $($wineListItem).append(pYear);
+      var selectBtn = $("<button>");
+      selectBtn.attr("class", "chosenWine " + i);
+      selectBtn.attr("data-wine", i);
+      selectBtn.text("Select");
+      var selectBTNTD = $("<td>").append(selectBtn);
 
+      fillInRow.append(wineNameTD, wineVintageTD, selectedNumber, selectBTNTD);
+      $("#wineReturned").append(fillInRow);
     }
   }
+
+  function updateDatabase(userID, wine, amount) {
+      var updates = {
+          amount:amount,
+          wineCode:wine.code,
+          varietal:wine.varietal,
+          image:wine.image,
+          name:wine.name
+      }
+    database.ref('users/'+userID).push(updates);
+    
+  }
+  //this adds the chosen wine and number of bottles to a users cellar
+  $(document).on("click", ".chosenWine", function(event) {
+    event.preventDefault();
+    var databaseQuery = database.ref().orderByKey();
+    databaseQuery.once("value").then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        console.log(childSnapshot.val());
+      });
+    });
+    //Needs to pull the data from the row for the wine info
+    //returned wines are saved until a new search is initiated
+    //allows for continual references back
+    var working = $(this).attr("data-wine");
+    var wineWorking = wineReturned.wines[working];
+    var bottlesToAdd = $("#name-" + working).val();
+    updateDatabase(userID, wineWorking, bottlesToAdd);
+    });
+
 
   // Function to empty out the wine
   function clear() {
     $("#wine-section").empty();
   }
 
-  // CLICK HANDLERS
-  // ==========================================================
-
-  // .on("click") function associated with the Search Button
-  $("#run-search").on("click", function (event) {
-    event.preventDefault();
-
-    // Empty the region associated with the wines
-    clear();
-
-    // Grabs user input
-    //    var wineName = $("#input-wine-name").val();
-    var wineRegion = $("#input-wine-region").val();
-    var wineYear = $("#input-wine-year").val();
-    var wineType = $("#input-wine-color").val();
-
-    // Creates local "temporary" object for holding wine data
-    var newWine = {
-      // name: wineName,
-      region: wineRegion,
-      year: wineYear,
-      type: wineType
-    };
-
-    // Uploads Wine data to the database
-    database.ref().push(newWine);
-
-    // Logs everything to console
-    // console.log(newWine.name);
-    console.log(newWine.region);
-    console.log(newWine.year);
-    console.log(newWine.type);
-
-    // Build the query URL for the ajax request to the NYT API
-    var queryURL = buildQueryURL();
-
-    // Make the AJAX request to the API - GETs the JSON data at the queryURL.
-    // The data then gets passed as an argument to the updatePage function
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    }).then(updatePage);
-  });
-
-  // 3. Create Firebase event for adding wine to the database and a row in the html when a user adds an entry
-  database.ref().on("child_added", function (childSnapshot) {
-    console.log(childSnapshot.val());
-
-    // Store everything into a variable.
-    var wineName = childSnapshot.val().name;
-    var wineRegion = childSnapshot.val().region;
-    var wineYear = childSnapshot.val().year;
-    var wineType = childSnapshot.val().type;
-
-    // wine Info
-    console.log(wineName);
-    console.log(wineRegion);
-    console.log(wineYear);
-    console.log(wineType);
-
-    //Create the new row
-
-    var newRow = $("<tr>").append(
-      $("<td>").text(wineName),
-      $("<td>").text(wineRegion),
-      $("<td>").text(wineYear),
-      $("<td>").text(wineType)
-    );
-
-    // Append the new row to the table
-    $("#wine-table > tbody").append(newRow);
-
-  });
-
-
-
-
-  //  .on("click") function associated with the clear button
-  $("#clear-all").on("click", clear);
-
-
-
-
-
   // begin login scripts
   var userExists = false;
   // is a user logged in?
-  firebase.auth().onAuthStateChanged(function (user) {
+  firebase.auth().onAuthStateChanged(function(user) {
+      if() {
+        database.ref().child("users").child(user.uid).set({
+            name: user.displayName
+        });
+      };
+    //passes userID  out to global scope
+    console.log(user);
+    userID = user.uid;
+    userName = user;
     if (user) {
       // if yes, show cellar
       $("#main-page").show();
       $("#sign-in-div").hide();
       $("#create-user-div").hide();
-      $("#username-display").text(user.displayName);
-      $("#email-display").text(user.email);
-      database.ref().child("users").child(user.uid).set({
-        name: user.displayName
-      });
-      // var getName, getEmail;
-      // getName = "John Doe";
-      // getEmail = "email";
-      // console.log(user);
-      // user.updateProfile({
-      //   displayName: getName,
-      //   email: getEmail
-      // }).then(function () {
-      //   // Update successful.
-      // }).catch(function (error) {
-      //   // An error happened.
-      //   window.alert(error);
-      // });
-      console.log(user.displayName);
 
     } else {
       // if not show signin page
@@ -243,6 +201,7 @@ $(document).ready(function () {
       $("#sign-in-div").show();
       $("#create-user-div").hide();
       $("#profile-div").hide();
+
     }
   });
 
@@ -258,7 +217,6 @@ $(document).ready(function () {
       $("#create-user-div").show();
       userExists = true;
     }
-
   }
 
   // login with Google account
@@ -279,22 +237,16 @@ $(document).ready(function () {
     var password = $("#password-input-create").val();
     var newUserName = $("#name-field").val();
     console.log(email, password);
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      window.alert(errorMessage);
-    });
-    firebase.auth().onAuthStateChanged(function (user) {
-      user.updateProfile({
-        displayName: newUserName
-      }).then(function () {
-        // Update successful.
-      }).catch(function (error) {
-        // An error happened.
-        window.alert(error);
+
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        window.alert(errorMessage);
       });
-    });
     $("#username-input-create").val("");
     $("#password-input-create").val("");
     $("#name-field").val("");
@@ -304,12 +256,15 @@ $(document).ready(function () {
   function login() {
     var emailSign = $("#username-input").val();
     var passwordSign = $("#password-input").val();
-    firebase.auth().signInWithEmailAndPassword(emailSign, passwordSign).catch(function (error) {
-      // Handle Errors here.
-      var errorCode2 = error.code;
-      var errorMessage2 = error.message;
-      window.alert(errorMessage2);
-    });
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(emailSign, passwordSign)
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode2 = error.code;
+        var errorMessage2 = error.message;
+        window.alert(errorMessage2);
+      });
     $("#username-input").val("");
     $("#password-input").val("");
   }
@@ -371,3 +326,4 @@ $(document).ready(function () {
   $("#update-profile").on("click", manuallyUpdateProfile);
 
 });
+
