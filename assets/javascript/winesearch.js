@@ -141,17 +141,16 @@ $(document).ready(function() {
     }
   }
 
-  function updateDatabase(input) {
-    database.ref().child({
-      garfield: {
-        name: wineWorking.name,
-        varietal: wineWorking.varietal,
-        code: wineWorking.code,
-        type: wineWorking.type,
-        region: wineWorking.region,
-        count: bottlesToAdd
+  function updateDatabase(userID, wine, amount) {
+      var updates = {
+          amount:amount,
+          wineCode:wine.code,
+          varietal:wine.varietal,
+          image:wine.image,
+          name:wine.name
       }
-    });
+    database.ref('users/'+userID).push(updates);
+    
   }
   //this adds the chosen wine and number of bottles to a users cellar
   $(document).on("click", ".chosenWine", function(event) {
@@ -167,19 +166,10 @@ $(document).ready(function() {
     //allows for continual references back
     var working = $(this).attr("data-wine");
     var wineWorking = wineReturned.wines[working];
-    var wineWorkingName = wineWorking.name;
     var bottlesToAdd = $("#name-" + working).val();
-
-    //check if user has a cellar object set up
-    database.ref().on("value", function(snapshot) {
-      if (!snapshot.child(userID).exists()) {
-        database.ref().child(userID).setValue("{}");
-        updateDatabase(wineWorkingName, bottlesToAdd);
-      } else {
-        updateDatabase(wineWorkingName, bottlesToAdd);
-      }
+    updateDatabase(userID, wineWorking, bottlesToAdd);
     });
-  });
+
 
   // Function to empty out the wine
   function clear() {
@@ -190,6 +180,11 @@ $(document).ready(function() {
   var userExists = false;
   // is a user logged in?
   firebase.auth().onAuthStateChanged(function(user) {
+      if() {
+        database.ref().child("users").child(user.uid).set({
+            name: user.displayName
+        });
+      };
     //passes userID  out to global scope
     console.log(user);
     userID = user.uid;
