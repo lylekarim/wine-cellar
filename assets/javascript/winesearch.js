@@ -170,7 +170,15 @@ $(document).ready(function() {
     updateDatabase(userID, wineWorking, bottlesToAdd);
     });
 
-
+    $(document).on("click", "#view", function(event) {
+        event.preventDefault();
+        database.ref('users/'+userID).once("value").then(function(snapshot){
+            snapshot.forEach(function (childSnapshot){
+                console.log(childSnapshot.val());
+            });
+        })
+        
+    })
   // Function to empty out the wine
   function clear() {
     $("#wine-section").empty();
@@ -180,15 +188,21 @@ $(document).ready(function() {
   var userExists = false;
   // is a user logged in?
   firebase.auth().onAuthStateChanged(function(user) {
-      if() {
-        database.ref().child("users").child(user.uid).set({
-            name: user.displayName
-        });
-      };
-    //passes userID  out to global scope
     console.log(user);
     userID = user.uid;
     userName = user;
+      database.ref().once('value').then(function(snapshot){
+          console.log(userID);
+        if(!snapshot.child('users/' + userID).exists()) {
+            console.log("testing2");
+            database.ref().child("users/").child(user.uid).set({
+                name: user.displayName
+            });
+          };
+      })
+      
+    //passes userID  out to global scope
+   
     if (user) {
       // if yes, show cellar
       $("#main-page").show();
