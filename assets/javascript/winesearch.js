@@ -217,13 +217,27 @@ $(document).ready(function () {
       $("#main-page").show();
       $("#sign-in-div").hide();
       $("#create-user-div").hide();
+      var getName, getEmail;
+      getName = "John Doe";
+      getEmail = "email";
+      console.log(user);
+      user.updateProfile({
+        displayName: getName,
+        email: getEmail
+      }).then(function () {
+        // Update successful.
+      }).catch(function (error) {
+        // An error happened.
+        window.alert(error);
+      });
+      console.log(user.displayName);
 
     } else {
       // if not show signin page
       $("#main-page").hide();
       $("#sign-in-div").show();
       $("#create-user-div").hide();
-
+      $("#profile-div").hide();
     }
   });
 
@@ -285,8 +299,51 @@ $(document).ready(function () {
     $("#password-input").val("");
   }
 
+  function getProfile() {
+    $("#create-profile-div").show();
+    $("#main-page").hide();
+    $("#sign-in-div").hide();
+    $("#create-user-div").hide();
+  }
+
+  function manuallyUpdateProfile() {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        var username, email;
+        if (checkbox.ischecked) {}
+        user.updateProfile({
+          displayName: username,
+          email: email
+        }).then(function () {
+          // Update successful.
+        }).catch(function (error) {
+          // An error happened.
+          window.alert(error);
+        });
+      } else {
+        // if not show signin page
+        $("#main-page").hide();
+        $("#sign-in-div").show();
+        $("#create-user-div").hide();
+        $("#create-profile-div").hide();
+      }
+    });
+  }
+
   function logout() {
+    window.location = "index.html";
     firebase.auth().signOut();
+  }
+
+  function reset() {
+    var auth = firebase.auth();
+    var emailAddress = "user@example.com";
+
+    auth.sendPasswordResetEmail(emailAddress).then(function () {
+      // Email sent.
+    }).catch(function (error) {
+      // An error happened.
+    });
   }
 
   $("#create-account-toggle").on("click", signInToggle);
@@ -296,5 +353,9 @@ $(document).ready(function () {
   $("#sign-in-google").on("click", googleLogin);
   $("#sign-in-facebook").on("click", facebookLogin);
   $("#logout").on("click", logout);
+  $("#logout-profile").on("click", logout);
+  // update profile click handler manuallyUpdateProfile
+  // show profile click handler getProfile
+  $("#reset-credentials").on("click", reset);
 
 });
