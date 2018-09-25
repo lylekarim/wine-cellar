@@ -234,6 +234,7 @@ $(document).ready(function() {
     var password = $("#password-input-create").val();
     var newUserName = $("#name-field").val();
     console.log(email, password);
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
