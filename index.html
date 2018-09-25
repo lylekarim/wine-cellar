@@ -28,11 +28,11 @@
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <div class="form-group mb-2" id="username">
             <label for="username-input" class="sr-only">Username</label>
-            <input type="text" class="form-control" id="username-input" placeholder="email@example.com">
+            <input type="text" class="form-control" id="username-input" placeholder="email@example.com" required>
         </div>
         <div class="form-group mb-2" id="password">
             <label for="password-input" class="sr-only">Password</label>
-            <input type="password" class="form-control" id="password-input" placeholder="Password">
+            <input type="password" class="form-control" id="password-input" placeholder="Password" required>
         </div>
 
         <button type="submit" class="btn btn-lg btn-primary btn-block" id="sign-in">View My Cellar</button>
@@ -47,22 +47,22 @@
         <h1 class="h3 mb-3 font-weight-normal">Create an Account</h1>
         <div class="form-group mb-2" id="users-name">
             <label for="name-field" class="sr-only">Your Name</label>
-            <input type="text" class="form-control" id="name-field" placeholder="John Doe">
+            <input type="text" class="form-control" id="name-field" placeholder="John Doe" required>
         </div>
         <div class="form-group mb-2" id="username-create">
             <label for="username-input-create" class="sr-only">Username</label>
-            <input type="text" class="form-control" id="username-input-create" placeholder="email@example.com">
+            <input type="text" class="form-control" id="username-input-create" placeholder="email@example.com" required>
         </div>
         <div class="form-group mb-2" id="password-create">
             <label for="password-input-create" class="sr-only">Password</label>
-            <input type="password" class="form-control" id="password-input-create" placeholder="Password">
+            <input type="password" class="form-control" id="password-input-create" placeholder="Password" required>
         </div>
-        <button type="submit" class="btn btn-lg btn-primary btn-block" id="create-user">Create My Cellar</button>
+        <button type="submit" class="btn btn-lg btn-primary btn-block" id="create-user">Create My
+                Cellar</button>
         <p>Already have an account?
             <button class="btn btn-lg btn-primary btn-block" type="submit" id="sign-in-toggle">Sign in</button>
         </p>
     </div>
-
     <div id="main-page">
         <div class="container-fluid">
             <div class="jumbotron">
@@ -90,7 +90,7 @@
 
 
                     </div>
-                    <button type="submit" class="btn btn-primary mb-2">View My Cellar</button>
+                    <a href="profile.html"><button type="submit" class="btn btn-primary mb-2">View My Cellar</button></a>
                 </div>
                 <div class="col-md-8">
                     <h3>Find Your Wine</h3>

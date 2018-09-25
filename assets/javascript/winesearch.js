@@ -194,11 +194,14 @@ $(document).ready(function() {
       $("#main-page").show();
       $("#sign-in-div").hide();
       $("#create-user-div").hide();
+
     } else {
       // if not show signin page
       $("#main-page").hide();
       $("#sign-in-div").show();
       $("#create-user-div").hide();
+      $("#profile-div").hide();
+
     }
   });
 
@@ -266,8 +269,47 @@ $(document).ready(function() {
     $("#password-input").val("");
   }
 
+  function manuallyUpdateProfile() {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        var username, email;
+        if (checkbox.ischecked) {}
+        user.updateProfile({
+          displayName: username,
+          email: email
+        }).then(function () {
+          // Update successful.
+        }).catch(function (error) {
+          // An error happened.
+          window.alert(error);
+        });
+      } else {
+        // if not show signin page
+        $("#main-page").hide();
+        $("#sign-in-div").show();
+        $("#create-user-div").hide();
+        $("#create-profile-div").hide();
+      }
+    });
+  }
+
   function logout() {
+    window.location = "index.html";
     firebase.auth().signOut();
+  }
+
+  function reset() {
+    var userToReset = firebase.auth().currentUser;
+    var auth = firebase.auth();
+    var emailAddress = userToReset.email;
+
+    auth.sendPasswordResetEmail(emailAddress).then(function () {
+      // Email sent.
+      window.alert("Password reset email has been sent.")
+    }).catch(function (error) {
+      // An error happened.
+      window.alert(error);
+    });
   }
 
   $("#create-account-toggle").on("click", signInToggle);
@@ -277,4 +319,11 @@ $(document).ready(function() {
   $("#sign-in-google").on("click", googleLogin);
   $("#sign-in-facebook").on("click", facebookLogin);
   $("#logout").on("click", logout);
+  $("#logout-profile").on("click", logout);
+  // update profile click handler manuallyUpdateProfile
+  // show profile click handler getProfile
+  $("#reset-credentials").on("click", reset);
+  $("#update-profile").on("click", manuallyUpdateProfile);
+
 });
+
