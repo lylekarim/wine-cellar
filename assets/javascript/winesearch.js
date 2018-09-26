@@ -384,10 +384,13 @@ $(document).ready(function () {
     if (curPage === "profile") {
       database.ref('/users/' + userID + "/preferences").once("value", function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
+          var thisKey = childSnapshot.key;
           var thisInterest = childSnapshot.val();
+          console.log(thisKey);
           console.log(thisInterest);
           $("#" + thisInterest).addClass("interest-button-clicked");
           $("#" + thisInterest).attr("clicked", "yes");
+          $("#" + thisInterest).attr("key", thisKey);
           });
         });
       $(".interest-button").on("click", function () {
