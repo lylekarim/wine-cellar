@@ -365,7 +365,7 @@ $(document).ready(function () {
 
   function fillHomePage() {
     if (curPage === "index") {
-      database.ref('/users/' + userID).once("value", function (snapshot) {
+      database.ref('/users/' + userID + "/wines").once("value", function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
           var newWine = childSnapshot.val().name;
           var newVarietal = childSnapshot.val().varietal;
@@ -382,13 +382,29 @@ $(document).ready(function () {
 
   function profileEdits() {
     if (curPage === "profile") {
+      database.ref('/users/' + userID + "/preferences").once("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          var thisInterest = childSnapshot.val();
+          console.log(thisInterest);
+          $("#" + thisInterest).addClass("interest-button-clicked");
+          $("#" + thisInterest).attr("clicked", "yes");
+          });
+        });
       $(".interest-button").on("click", function () {
         if ($(this).attr("clicked") === "no") {
           $(this).addClass("interest-button-clicked");
           $(this).attr("clicked", "yes");
+          var profilePreference = $(this).attr("preference-name");
+          var profileKey = firebase.database().ref("users/" + userID + "/preferences").push().key
+          var profileUpdates = {}
+          profileUpdates["users/" + userID + "/preferences/" + profileKey] = profilePreference;
+          database.ref().update(profileUpdates);
+          $(this).attr("key", profileKey);
         } else {
           $(this).removeClass("interest-button-clicked");
           $(this).attr("clicked", "no");
+          var removalKey = $(this).attr("key");
+          database.ref("users/" + userID + "/preferences/" + removalKey).remove();
         }
       });
     }
