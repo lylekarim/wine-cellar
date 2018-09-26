@@ -21,7 +21,7 @@ $(document).ready(function () {
   //snooth
   function buildQueryURL(input) {
     // queryURL is the url we'll use to query the API
-    var queryURL = "http://api.snooth.com/wines/?";
+    var queryURL = "https://api.snooth.com/wines/?";
 
     // Begin building an object to contain our API call's query parameters
     // Set the API key
