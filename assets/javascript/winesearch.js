@@ -189,7 +189,8 @@ $(document).ready(function () {
           selectBtn.text("Location");
           var location = $("<td>").append(selectBtn);
 
-          fillInRow.append(wineImg, wineNameTD, wineVarietal, bottles, location);
+          // removed wineImg as it is not defined yet
+          fillInRow.append(wineNameTD, wineVarietal, bottles, location);
 
           $("#wineCellar").append(fillInRow);
           i++;
