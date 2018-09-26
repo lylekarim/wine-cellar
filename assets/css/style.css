@@ -46,7 +46,6 @@ body {
     height: 200px;
 }
 
-
 #logout {
     position: absolute;
     display: block;
@@ -137,3 +136,18 @@ body {
     display: inline;
 }
 
+.interest-button-clicked {
+    background-color: #551924; 
+    border: none;
+    color: #e2e5de;
+}
+
+.interest-button-clicked:hover {
+    animation-name: background-color;
+    background-color: #e2e5de;
+    color: #551924;
+}
+
+#interest-directions {
+    font-size: 12px;
+}

@@ -137,7 +137,7 @@ $(document).ready(function () {
       image: wine.image,
       name: wine.name
     };
-    database.ref("users/" + userID).push(updates);
+    database.ref("users/" + userID + "/wines").push(updates);
   }
   //this adds the chosen wine and number of bottles to a users cellar
   $(document).on("click", ".chosenWine", function (event) {
@@ -155,7 +155,7 @@ $(document).ready(function () {
   //this will populate the cellar in the profile.html
   function thisFuckingThing() {
     if (curPage === "cellar") {
-      database.ref("/users/" + userID).once("value", function (snapshot) {
+      database.ref("/users/" + userID + "/wines").once("value", function (snapshot) {
         var i = 0;
         snapshot.forEach(function (childSnapshot) {
           console.log("thisfuckingthing");
@@ -218,18 +218,20 @@ $(document).ready(function () {
       userName = user;
       thisFuckingThing();
       fillHomePage();
+      profileEdits();
       database
         .ref()
         .once("value")
         .then(function (snapshot) {
           console.log(userID);
           console.log("lettuce");
-          if (!snapshot.child("users/" + userID).exists()) {
+          if (!snapshot.child("users/" + userID + "/wines").exists()) {
             console.log("testing2");
             database
               .ref()
               .child("users/")
               .child(user.uid)
+              .child("/name")
               .set({
                 name: user.displayName
               });
@@ -374,6 +376,20 @@ $(document).ready(function () {
           console.log(newRow);
           $("#wine-table").append(newRow);
         });
+      });
+    }
+  }
+
+  function profileEdits() {
+    if (curPage === "profile") {
+      $(".interest-button").on("click", function () {
+        if ($(this).attr("clicked") === "no") {
+          $(this).addClass("interest-button-clicked");
+          $(this).attr("clicked", "yes");
+        } else {
+          $(this).removeClass("interest-button-clicked");
+          $(this).attr("clicked", "no");
+        }
       });
     }
   }
