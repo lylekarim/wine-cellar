@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-
+    <link rel="stylesheet" href="../wine-cellar/assets/css/reset.css">
     <meta charset="UTF-8">
-    <title>Getcher Wine</title>
+    <title>My Wine Cellar App</title>
 
     <!-- Firebase Reference -->
     <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
@@ -57,8 +57,8 @@
             <label for="password-input-create" class="sr-only">Password</label>
             <input type="password" class="form-control" id="password-input-create" placeholder="Password" required>
         </div>
-        <button type="submit" class="btn btn-lg btn-primary btn-block" id="create-user">Create My
-                Cellar</button>
+        <button type="submit" class="btn btn-lg btn-primary btn-block" id="create-user">Create My Cellar
+        </button>
         <p>Already have an account?
             <button class="btn btn-lg btn-primary btn-block" type="submit" id="sign-in-toggle">Sign in</button>
         </p>
@@ -66,7 +66,7 @@
 
 
     <div id="main-page">
-        <div class="container-fluid">
+        <div class="container-fluid" id="header">
             <div class="jumbotron">
                 <h1>My Wine Cellar</h1>
             </div>
@@ -92,7 +92,7 @@
 
 
                     </div>
-                    <a href="#"><button type="submit" class="btn btn-primary mb-2" id="view">View My Cellar</button></a>
+                    <a href="cellar.html"><button type="submit" class="btn btn-primary mb-2">View My Cellar</button></a>
                 </div>
                 <div class="col-md-8">
                     <h3>Find Your Wine</h3>
@@ -141,6 +141,9 @@
             </div>
         </div>
         <script src="assets/javascript/winesearch.js"></script>
+        <script>
+            localStorage.setItem("currentPage", "index");
+        </script>
 </body>
 
 </html>
