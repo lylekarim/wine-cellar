@@ -21,7 +21,7 @@ $(document).ready(function () {
   //snooth
   function buildQueryURL(input) {
     // queryURL is the url we'll use to query the API
-    var queryURL = "http://api.snooth.com/wines/?";
+    var queryURL = "https://api.snooth.com/wines/?";
 
     // Begin building an object to contain our API call's query parameters
     // Set the API key
@@ -384,10 +384,13 @@ $(document).ready(function () {
     if (curPage === "profile") {
       database.ref('/users/' + userID + "/preferences").once("value", function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
+          var thisKey = childSnapshot.key;
           var thisInterest = childSnapshot.val();
+          console.log(thisKey);
           console.log(thisInterest);
           $("#" + thisInterest).addClass("interest-button-clicked");
           $("#" + thisInterest).attr("clicked", "yes");
+          $("#" + thisInterest).attr("key", thisKey);
           });
         });
       $(".interest-button").on("click", function () {
