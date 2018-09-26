@@ -36,7 +36,7 @@ $(document).ready(function() {
   }
   //This sets up the api call for the stores in the users area
   function storeURL(input) {
-    var storeQuery = "http://api.snooth.com/stores/?";
+    var storeQuery = "https://api.snooth.com/stores/?";
 
     // Begin building an object to contain our API call's query parameters
     // Set the API key
