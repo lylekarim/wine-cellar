@@ -137,7 +137,7 @@ $(document).ready(function () {
       image: wine.image,
       name: wine.name
     };
-    database.ref("users/" + userID).push(updates);
+    database.ref("users/" + userID + "/wines").push(updates);
   }
   //this adds the chosen wine and number of bottles to a users cellar
   $(document).on("click", ".chosenWine", function (event) {
@@ -155,7 +155,7 @@ $(document).ready(function () {
   //this will populate the cellar in the profile.html
   function thisFuckingThing() {
     if (curPage === "cellar") {
-      database.ref("/users/" + userID).once("value", function (snapshot) {
+      database.ref("/users/" + userID + "/wines").once("value", function (snapshot) {
         var i = 0;
         snapshot.forEach(function (childSnapshot) {
           console.log("thisfuckingthing");
@@ -189,7 +189,8 @@ $(document).ready(function () {
           selectBtn.text("Location");
           var location = $("<td>").append(selectBtn);
 
-          fillInRow.append(wineImg, wineNameTD, wineVarietal, bottles, location);
+          // removed wineImg as it is not defined yet
+          fillInRow.append(wineNameTD, wineVarietal, bottles, location);
 
           $("#wineCellar").append(fillInRow);
           i++;
@@ -217,18 +218,20 @@ $(document).ready(function () {
       userName = user;
       thisFuckingThing();
       fillHomePage();
+      profileEdits();
       database
         .ref()
         .once("value")
         .then(function (snapshot) {
           console.log(userID);
           console.log("lettuce");
-          if (!snapshot.child("users/" + userID).exists()) {
+          if (!snapshot.child("users/" + userID + "/wines").exists()) {
             console.log("testing2");
             database
               .ref()
               .child("users/")
               .child(user.uid)
+              .child("/name")
               .set({
                 name: user.displayName
               });
@@ -362,7 +365,7 @@ $(document).ready(function () {
 
   function fillHomePage() {
     if (curPage === "index") {
-      database.ref('/users/' + userID).once("value", function (snapshot) {
+      database.ref('/users/' + userID + "/wines").once("value", function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
           var newWine = childSnapshot.val().name;
           var newVarietal = childSnapshot.val().varietal;
@@ -373,6 +376,36 @@ $(document).ready(function () {
           console.log(newRow);
           $("#wine-table").append(newRow);
         });
+      });
+    }
+  }
+
+  function profileEdits() {
+    if (curPage === "profile") {
+      database.ref('/users/' + userID + "/preferences").once("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          var thisInterest = childSnapshot.val();
+          console.log(thisInterest);
+          $("#" + thisInterest).addClass("interest-button-clicked");
+          $("#" + thisInterest).attr("clicked", "yes");
+          });
+        });
+      $(".interest-button").on("click", function () {
+        if ($(this).attr("clicked") === "no") {
+          $(this).addClass("interest-button-clicked");
+          $(this).attr("clicked", "yes");
+          var profilePreference = $(this).attr("preference-name");
+          var profileKey = firebase.database().ref("users/" + userID + "/preferences").push().key
+          var profileUpdates = {}
+          profileUpdates["users/" + userID + "/preferences/" + profileKey] = profilePreference;
+          database.ref().update(profileUpdates);
+          $(this).attr("key", profileKey);
+        } else {
+          $(this).removeClass("interest-button-clicked");
+          $(this).attr("clicked", "no");
+          var removalKey = $(this).attr("key");
+          database.ref("users/" + userID + "/preferences/" + removalKey).remove();
+        }
       });
     }
   }
