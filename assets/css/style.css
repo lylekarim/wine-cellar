@@ -124,3 +124,9 @@ body {
     background-color: #cfd0cede;
     color: #551924;
 }
+
+.bottleOWine > p{
+    padding: 2px;
+    display: inline;
+}
+
