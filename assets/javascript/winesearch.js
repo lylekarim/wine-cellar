@@ -1,22 +1,5 @@
-//Sample Snooth API returns:
-
-// image: "http://ei.isnooth.com/multimedia/e/1/5/image_1960028_square.jpeg"
-// link: "http://www.snooth.com/wine/pavilion-cabernet-sauvignon-napa-valley-2010/"
-// name: "Pavilion Cabernet Sauvignon Napa Valley"
-// num_merchants: 113
-// num_reviews: 1
-// price: "16.99"
-// region: "USA > California > Napa"
-// snoothrank: "n/a"
-// tags: ""
-// type: "Red Wine"
-// varietal: "Cabernet Sauvignon"
-// vintage: "2010"
-// winery: "Pavilion WInery"
-// winery_id: "pavilion-winery"
-
 $(document).ready(function() {
-    var curPage = localStorage.getItem("currentPage");
+  var curPage = localStorage.getItem("currentPage");
   var wineReturned;
   var userID;
   var userName;
@@ -34,11 +17,6 @@ $(document).ready(function() {
   firebase.initializeApp(config);
 
   var database = firebase.database();
-
-  var databaseQuery = database.ref().orderByKey();
-  databaseQuery.once("value").then(function(snapshot) {
-    //console.log(Object.keys(snapshot.val()));
-  });
 
   //snooth
   function buildQueryURL(input) {
@@ -142,26 +120,29 @@ $(document).ready(function() {
     }
   }
 
+  //This is the location search that pulls the users location and searchs local stores for this wine
+  $(document).on("click", ".locationSearch", function(event) {
+    event.preventDefault();
+    var searchZ = prompt("What zip code? : ");
+
+
+  })
+
+
   function updateDatabase(userID, wine, amount) {
-      var updates = {
-          amount:amount,
-          wineCode:wine.code,
-          varietal:wine.varietal,
-          image:wine.image,
-          name:wine.name
-      }
-    database.ref('users/'+userID).push(updates);
-    
+    var updates = {
+      amount: amount,
+      wineCode: wine.code,
+      varietal: wine.varietal,
+      image: wine.image,
+      name: wine.name
+    };
+    database.ref("users/" + userID).push(updates);
   }
   //this adds the chosen wine and number of bottles to a users cellar
   $(document).on("click", ".chosenWine", function(event) {
     event.preventDefault();
-    var databaseQuery = database.ref().orderByKey();
-    databaseQuery.once("value").then(function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        console.log(childSnapshot.val());
-      });
-    });
+    
     //Needs to pull the data from the row for the wine info
     //returned wines are saved until a new search is initiated
     //allows for continual references back
@@ -169,25 +150,54 @@ $(document).ready(function() {
     var wineWorking = wineReturned.wines[working];
     var bottlesToAdd = $("#name-" + working).val();
     updateDatabase(userID, wineWorking, bottlesToAdd);
-    });
+  });
 
-    //this will populate the cellar in the profile.html
-    if(curPage === "cellar"){
-        console.log("cellar");
-        database.ref('users/'+userID).once("value").then(function(snapshot){
-            console.log("fight milk");
-            console.log(snapshot.val());
-            console.log(userID)
-            snapshot.forEach(function (childSnapshot){
-                console.log(childSnapshot.val());
-                console.log("this")
-                // var fillInRow = $("<tr>");
-                // fillInRow.attr("data-name", input[i].name);
-                // $("#wineCellar").append(fillInRow)
-            });
-        })
+  //this will populate the cellar in the profile.html
+  function thisFuckingThing() {
+    if (curPage === "cellar") {
+      database.ref("/users/" + userID).once("value", function(snapshot) {
+        var i = 0;
+        snapshot.forEach(function(childSnapshot) {
+          console.log("thisfuckingthing");
+          console.log(childSnapshot.val().key);
+          var fillInRow = $("<tr>");
+          fillInRow.attr("data-name", "cellarRow " + i);
+
+          var wineNameTD = $("<td>");
+          wineNameTD.text(childSnapshot.val().name);
+
+          var wineVarietal = $("<td>");
+          wineVarietal.text(childSnapshot.val().varietal);
+
+          var increaseBtn = $("<button>");
+          increaseBtn.attr("class", "btn btn-submit increase "+i);
+          increaseBtn.text("+");
+
+          var decreaseBtn = $("<button>");
+          decreaseBtn.attr("class", "btn btn-submit decrease "+i);
+          decreaseBtn.text("-");
+
+          var bottles = $("<td>");
+          bottles.attr("class", "bottleOWine")
+          bottles.append(increaseBtn);
+          bottles.append(`<p>${childSnapshot.val().amount}<p>`);
+          bottles.append(decreaseBtn);
+
+          var selectBtn = $("<button>");
+          selectBtn.attr("class", "locationSearch " + i);
+          selectBtn.attr("data-wine", i);
+          selectBtn.text("Location");
+          var location = $("<td>").append(selectBtn);
+
+          fillInRow.append(wineImg, wineNameTD, wineVarietal, bottles, location);
+
+          $("#wineCellar").append(fillInRow);
+          i++;
+        });
+      });
     }
-    
+  }
+
   // Function to empty out the wine
   function clear() {
     $("#wine-section").empty();
@@ -200,32 +210,38 @@ $(document).ready(function() {
     console.log(user);
     userID = user.uid;
     userName = user;
-      database.ref().once('value').then(function(snapshot){
-          console.log(userID);
-          console.log("lettuce");
-        if(!snapshot.child('users/' + userID).exists()) {
-            console.log("testing2");
-            database.ref().child("users/").child(user.uid).set({
-                name: user.displayName
+    thisFuckingThing();
+    database
+      .ref()
+      .once("value")
+      .then(function(snapshot) {
+        console.log(userID);
+        console.log("lettuce");
+        if (!snapshot.child("users/" + userID).exists()) {
+          console.log("testing2");
+          database
+            .ref()
+            .child("users/")
+            .child(user.uid)
+            .set({
+              name: user.displayName
             });
-          };
-      })
-      
+        }
+      });
+
     //passes userID  out to global scope
-   
+
     if (user) {
       // if yes, show cellar
       $("#main-page").show();
       $("#sign-in-div").hide();
       $("#create-user-div").hide();
-
     } else {
       // if not show signin page
       $("#main-page").hide();
       $("#sign-in-div").show();
       $("#create-user-div").hide();
       $("#profile-div").hide();
-
     }
   });
 
@@ -294,19 +310,23 @@ $(document).ready(function() {
   }
 
   function manuallyUpdateProfile() {
-    firebase.auth().onAuthStateChanged(function (user) {
+    firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         var username, email;
-        if (checkbox.ischecked) {}
-        user.updateProfile({
-          displayName: username,
-          email: email
-        }).then(function () {
-          // Update successful.
-        }).catch(function (error) {
-          // An error happened.
-          window.alert(error);
-        });
+        if (checkbox.ischecked) {
+        }
+        user
+          .updateProfile({
+            displayName: username,
+            email: email
+          })
+          .then(function() {
+            // Update successful.
+          })
+          .catch(function(error) {
+            // An error happened.
+            window.alert(error);
+          });
       } else {
         // if not show signin page
         $("#main-page").hide();
@@ -327,13 +347,16 @@ $(document).ready(function() {
     var auth = firebase.auth();
     var emailAddress = userToReset.email;
 
-    auth.sendPasswordResetEmail(emailAddress).then(function () {
-      // Email sent.
-      window.alert("Password reset email has been sent.")
-    }).catch(function (error) {
-      // An error happened.
-      window.alert(error);
-    });
+    auth
+      .sendPasswordResetEmail(emailAddress)
+      .then(function() {
+        // Email sent.
+        window.alert("Password reset email has been sent.");
+      })
+      .catch(function(error) {
+        // An error happened.
+        window.alert(error);
+      });
   }
 
   $("#create-account-toggle").on("click", signInToggle);
@@ -348,6 +371,4 @@ $(document).ready(function() {
   // show profile click handler getProfile
   $("#reset-credentials").on("click", reset);
   $("#update-profile").on("click", manuallyUpdateProfile);
-
 });
-
