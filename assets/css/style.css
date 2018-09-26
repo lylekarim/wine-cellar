@@ -53,6 +53,13 @@ body {
     right: 50px;
 }
 
+#logout-profile {
+    position: absolute;
+    display: block;
+    top: 50px;
+    right: 50px;
+}
+
 #profile {
     position: absolute;
     display: block;
@@ -93,9 +100,10 @@ body {
     color: #551924;  
 }
 
+
 .btn-primary:hover {
     animation-name: background-color;
-    background-color: #551924;
+    background-color: #1d1718;
     color: #e2e5de;
 }
 
@@ -103,11 +111,17 @@ body {
     float: right; 
 }
 
+#switch {
+    position: absolute;
+    display: block;
+    top: 120px;
+    right: 50px;
+}
+
 #login-button:hover {
     animation-name: background-color;
     background-color: #1d1718;
     color: #e2e5de;
-    
 }
 
 #logout:hover {
