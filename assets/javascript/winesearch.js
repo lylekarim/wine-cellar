@@ -16,6 +16,7 @@
 // winery_id: "pavilion-winery"
 
 $(document).ready(function() {
+    var curPage = localStorage.getItem("currentPage");
   var wineReturned;
   var userID;
   var userName;
@@ -36,7 +37,7 @@ $(document).ready(function() {
 
   var databaseQuery = database.ref().orderByKey();
   databaseQuery.once("value").then(function(snapshot) {
-    console.log(Object.keys(snapshot.val()));
+    //console.log(Object.keys(snapshot.val()));
   });
 
   //snooth
@@ -98,8 +99,8 @@ $(document).ready(function() {
       method: "GET"
     }).then(function(response) {
       wineReturned = JSON.parse(response);
-      console.log(wineReturned);
-      console.log("hello");
+      //console.log(wineReturned);
+      //console.log("hello");
       updatePage(wineReturned.wines);
     });
   });
@@ -170,15 +171,23 @@ $(document).ready(function() {
     updateDatabase(userID, wineWorking, bottlesToAdd);
     });
 
-    $(document).on("click", "#view", function(event) {
-        event.preventDefault();
+    //this will populate the cellar in the profile.html
+    if(curPage === "cellar"){
+        console.log("cellar");
         database.ref('users/'+userID).once("value").then(function(snapshot){
+            console.log("fight milk");
+            console.log(snapshot.val());
+            console.log(userID)
             snapshot.forEach(function (childSnapshot){
                 console.log(childSnapshot.val());
+                console.log("this")
+                // var fillInRow = $("<tr>");
+                // fillInRow.attr("data-name", input[i].name);
+                // $("#wineCellar").append(fillInRow)
             });
         })
-        
-    })
+    }
+    
   // Function to empty out the wine
   function clear() {
     $("#wine-section").empty();
@@ -193,6 +202,7 @@ $(document).ready(function() {
     userName = user;
       database.ref().once('value').then(function(snapshot){
           console.log(userID);
+          console.log("lettuce");
         if(!snapshot.child('users/' + userID).exists()) {
             console.log("testing2");
             database.ref().child("users/").child(user.uid).set({
