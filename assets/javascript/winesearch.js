@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var curPage = localStorage.getItem("currentPage");
   var wineReturned;
   var userID;
@@ -48,7 +48,7 @@ $(document).ready(function() {
     return storeQuery + $.param(queryParams);
   }
 
-  $("#run-search").on("click", function(event) {
+  $("#run-search").on("click", function (event) {
     event.preventDefault();
 
     var storeLocationURL = storeURL();
@@ -57,7 +57,7 @@ $(document).ready(function() {
     $.ajax({
       url: storeLocationURL,
       method: "GET"
-    }).then(function(response) {
+    }).then(function (response) {
       arrayOfStores = JSON.parse(response);
       console.log(arrayOfStores);
     });
@@ -75,7 +75,7 @@ $(document).ready(function() {
     $.ajax({
       url: queryURL,
       method: "GET"
-    }).then(function(response) {
+    }).then(function (response) {
       wineReturned = JSON.parse(response);
       //console.log(wineReturned);
       //console.log("hello");
@@ -121,7 +121,7 @@ $(document).ready(function() {
   }
 
   //This is the location search that pulls the users location and searchs local stores for this wine
-  $(document).on("click", ".locationSearch", function(event) {
+  $(document).on("click", ".locationSearch", function (event) {
     event.preventDefault();
     var searchZ = prompt("What zip code? : ");
 
@@ -140,9 +140,9 @@ $(document).ready(function() {
     database.ref("users/" + userID).push(updates);
   }
   //this adds the chosen wine and number of bottles to a users cellar
-  $(document).on("click", ".chosenWine", function(event) {
+  $(document).on("click", ".chosenWine", function (event) {
     event.preventDefault();
-    
+
     //Needs to pull the data from the row for the wine info
     //returned wines are saved until a new search is initiated
     //allows for continual references back
@@ -155,9 +155,9 @@ $(document).ready(function() {
   //this will populate the cellar in the profile.html
   function thisFuckingThing() {
     if (curPage === "cellar") {
-      database.ref("/users/" + userID).once("value", function(snapshot) {
+      database.ref("/users/" + userID).once("value", function (snapshot) {
         var i = 0;
-        snapshot.forEach(function(childSnapshot) {
+        snapshot.forEach(function (childSnapshot) {
           console.log("thisfuckingthing");
           console.log(childSnapshot.val().key);
           var fillInRow = $("<tr>");
@@ -170,11 +170,11 @@ $(document).ready(function() {
           wineVarietal.text(childSnapshot.val().varietal);
 
           var increaseBtn = $("<button>");
-          increaseBtn.attr("class", "btn btn-submit increase "+i);
+          increaseBtn.attr("class", "btn btn-submit increase " + i);
           increaseBtn.text("+");
 
           var decreaseBtn = $("<button>");
-          decreaseBtn.attr("class", "btn btn-submit decrease "+i);
+          decreaseBtn.attr("class", "btn btn-submit decrease " + i);
           decreaseBtn.text("-");
 
           var bottles = $("<td>");
@@ -206,36 +206,38 @@ $(document).ready(function() {
   // begin login scripts
   var userExists = false;
   // is a user logged in?
-  firebase.auth().onAuthStateChanged(function(user) {
-    console.log(user);
-    userID = user.uid;
-    userName = user;
-    thisFuckingThing();
-    database
-      .ref()
-      .once("value")
-      .then(function(snapshot) {
-        console.log(userID);
-        console.log("lettuce");
-        if (!snapshot.child("users/" + userID).exists()) {
-          console.log("testing2");
-          database
-            .ref()
-            .child("users/")
-            .child(user.uid)
-            .set({
-              name: user.displayName
-            });
-        }
-      });
-
-    //passes userID  out to global scope
-
+  firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
       // if yes, show cellar
       $("#main-page").show();
       $("#sign-in-div").hide();
       $("#create-user-div").hide();
+      console.log(user);
+      userID = user.uid;
+      userName = user;
+      thisFuckingThing();
+      fillHomePage();
+      database
+        .ref()
+        .once("value")
+        .then(function (snapshot) {
+          console.log(userID);
+          console.log("lettuce");
+          if (!snapshot.child("users/" + userID).exists()) {
+            console.log("testing2");
+            database
+              .ref()
+              .child("users/")
+              .child(user.uid)
+              .set({
+                name: user.displayName
+              });
+          }
+        });
+
+      //passes userID  out to global scope
+
+
     } else {
       // if not show signin page
       $("#main-page").hide();
@@ -281,7 +283,7 @@ $(document).ready(function() {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .catch(function(error) {
+      .catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -299,7 +301,7 @@ $(document).ready(function() {
     firebase
       .auth()
       .signInWithEmailAndPassword(emailSign, passwordSign)
-      .catch(function(error) {
+      .catch(function (error) {
         // Handle Errors here.
         var errorCode2 = error.code;
         var errorMessage2 = error.message;
@@ -310,20 +312,19 @@ $(document).ready(function() {
   }
 
   function manuallyUpdateProfile() {
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         var username, email;
-        if (checkbox.ischecked) {
-        }
+        if (checkbox.ischecked) {}
         user
           .updateProfile({
             displayName: username,
             email: email
           })
-          .then(function() {
+          .then(function () {
             // Update successful.
           })
-          .catch(function(error) {
+          .catch(function (error) {
             // An error happened.
             window.alert(error);
           });
@@ -349,14 +350,31 @@ $(document).ready(function() {
 
     auth
       .sendPasswordResetEmail(emailAddress)
-      .then(function() {
+      .then(function () {
         // Email sent.
         window.alert("Password reset email has been sent.");
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // An error happened.
         window.alert(error);
       });
+  }
+
+  function fillHomePage() {
+    if (curPage === "index") {
+      database.ref('/users/' + userID).once("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          var newWine = childSnapshot.val().name;
+          var newVarietal = childSnapshot.val().varietal;
+          var newRow = $("<tr>").append(
+            $("<td>").text(newWine),
+            $("<td>").text(newVarietal)
+          );
+          console.log(newRow);
+          $("#wine-table").append(newRow);
+        });
+      });
+    }
   }
 
   $("#create-account-toggle").on("click", signInToggle);
