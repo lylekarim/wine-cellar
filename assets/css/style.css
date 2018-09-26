@@ -54,6 +54,13 @@ body {
     right: 50px;
 }
 
+#profile {
+    position: absolute;
+    display: block;
+    top: 120px;
+    right: 50px;
+}
+
 
 @media screen and (max-width: 500px) {
     #header {
