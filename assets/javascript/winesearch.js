@@ -306,10 +306,80 @@ $(document).ready(function() {
         $(`#${thisID}`).remove();
     });
 
+
     // Function to empty out the wine
     function clear() {
         $("#wine-section").empty();
     }
+  function updateDatabase(userID, wine, amount) {
+    var updates = {
+      amount: amount,
+      wineCode: wine.code,
+      varietal: wine.varietal,
+      image: wine.image,
+      name: wine.name
+    };
+    database.ref("users/" + userID + "/wines").push(updates);
+  }
+  //this adds the chosen wine and number of bottles to a users cellar
+  $(document).on("click", ".chosenWine", function (event) {
+    event.preventDefault();
+
+    //Needs to pull the data from the row for the wine info
+    //returned wines are saved until a new search is initiated
+    //allows for continual references back
+    var working = $(this).attr("data-wine");
+    var wineWorking = wineReturned.wines[working];
+    var bottlesToAdd = $("#name-" + working).val();
+    updateDatabase(userID, wineWorking, bottlesToAdd);
+    fillHomePage();
+  });
+
+  //this will populate the cellar in the profile.html
+  function thisFuckingThing() {
+    if (curPage === "cellar") {
+      database.ref("/users/" + userID + "/wines").once("value", function (snapshot) {
+        var i = 0;
+        snapshot.forEach(function (childSnapshot) {
+          console.log("thisfuckingthing");
+          console.log(childSnapshot.val().key);
+          var fillInRow = $("<tr>");
+          fillInRow.attr("data-name", "cellarRow " + i);
+
+          var wineNameTD = $("<td>");
+          wineNameTD.text(childSnapshot.val().name);
+
+          var wineVarietal = $("<td>");
+          wineVarietal.text(childSnapshot.val().varietal);
+
+          var increaseBtn = $("<button>");
+          increaseBtn.attr("class", "btn btn-submit increase " + i);
+          increaseBtn.text("+");
+
+          var decreaseBtn = $("<button>");
+          decreaseBtn.attr("class", "btn btn-submit decrease " + i);
+          decreaseBtn.text("-");
+
+          var bottles = $("<td>");
+          bottles.attr("class", "bottleOWine")
+          bottles.append(increaseBtn);
+          bottles.append(`<p>${childSnapshot.val().amount}<p>`);
+          bottles.append(decreaseBtn);
+
+          var selectBtn = $("<button>");
+          selectBtn.attr("class", "locationSearch " + i);
+          selectBtn.attr("data-wine", i);
+          selectBtn.text("Location");
+          var location = $("<td>").append(selectBtn);
+
+          // removed wineImg as it is not defined yet
+          fillInRow.append(wineNameTD, wineVarietal, bottles, location);
+
+          $("#wineCellar").append(fillInRow);
+          i++;
+        });
+      });
+
 
     // begin login scripts
     var userExists = false;
