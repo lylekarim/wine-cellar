@@ -4,6 +4,8 @@ $(document).ready(function () {
   var userID;
   var userName;
   var arrayOfStores;
+  var wineNames = [];
+  var numberBottles = [];
   // 1. Initialize Firebase
   var config = {
     apiKey: "AIzaSyAA89Se884k_LhKKY9GFcVOpRqFZp9aCEE",
@@ -145,6 +147,10 @@ $(document).ready(function () {
     storeSearch();
   });
 
+  // google maps search 
+
+
+
   //This adds the chosen wine to the database
   function updateDatabase(userID, wine, amount) {
     var updates = {
@@ -252,9 +258,64 @@ $(document).ready(function () {
 
             $("#wineCellar").append(fillInRow);
             i++;
+
+            database
+              .ref("/users/" + userID + "/wines")
+              .on("value", function (snapshot) {
+                wineNames = [];
+                numberBottles = [];
+                snapshot.forEach(function (childSnapshot) {
+                  wineNames.push(childSnapshot.val().name.substr(0, 12));
+                  numberBottles.push(childSnapshot.val().amount);
+                  console.log(wineNames);
+                  var ctx = document.getElementById("myChart").getContext('2d');
+                  var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                      labels: wineNames,
+                      datasets: [{
+                        label: '# of bottles',
+                        data: numberBottles,
+                        backgroundColor: [
+                          'rgba(255, 250, 205, 0.2)', //		255-250-240
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(255, 206, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                          'rgba(0, 0, 0, 1)',
+                          'rgba(54, 162, 235, 1)',
+                          'rgba(255, 206, 86, 1)',
+                          'rgba(75, 192, 192, 1)',
+                          'rgba(153, 102, 255, 1)',
+                          'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      maintainAspectRatio: false,
+                      scales: {
+                        yAxes: [{
+                          ticks: {
+                            stepSize: 10,
+                            beginAtZero: true
+                          }
+                        }]
+                      }
+                    }
+                  });
+                });
+              });
           });
         });
     }
+  }
+
+  function createChart() {
+    console.log(wineNames);
   }
 
   //this increases the number of bottles in the users cellar
@@ -542,6 +603,9 @@ $(document).ready(function () {
 
   function profileEdits() {
     if (curPage === "profile") {
+      var user = firebase.auth().currentUser;
+      $("#username-display").text(user.displayName);
+      $("#email-display").text(user.email);
       database
         .ref("/users/" + userID + "/preferences")
         .once("value", function (snapshot) {

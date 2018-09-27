@@ -172,3 +172,8 @@ body {
 #interest-directions {
     font-size: 12px;
 }
+
+#my-chart {
+    margin: auto;
+    width: 75%;
+}
