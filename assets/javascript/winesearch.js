@@ -48,8 +48,12 @@ $(document).ready(function () {
     return storeQuery + $.param(queryParams);
   }
 
+  $("#run-search").on("click", function (event) {
+    event.preventDefault();
+    wineSearch();
+  });
+
   function storeSearch() {
-    $("#wineReturned").empty();
     var storeLocationURL = storeURL();
     console.log(storeLocationURL);
     //This will call the local stores and save the results in the an array
@@ -62,38 +66,39 @@ $(document).ready(function () {
       console.log(arrayOfStores.stores);
     });
   }
-
   //Then when the array is created the following api will use the store ids to build a button to check its availability
+  function wineSearch() {
+    var wineType = $("#input-wine-color").val();
+    var wineName = $("#input-wine-name").val();
 
-  var wineType = $("#input-wine-color").val();
-  var wineName = $("#input-wine-name").val();
+    var holdingObject = {
+      name: wineName,
+      type: wineType
+    };
 
-  var holdingObject = {
-    name: wineName,
-    type: wineType
-  };
+    var queryURL = buildQueryURL(holdingObject);
 
-  var queryURL = buildQueryURL(holdingObject);
-
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(function (response) {
-    wineReturned = JSON.parse(response);
-    //console.log(wineReturned);
-    //console.log("hello");
-    if (wineReturned.wines) {
-      updatePage(wineReturned.wines);
-    } else {
-      var fillInRow = $("<tr>");
-      var emptyResults = $("<td>This wine cannot be located</td>");
-      fillInRow.append(emptyResults);
-      $("#wineReturned").append(fillInRow);
-    }
-  });
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function (response) {
+      wineReturned = JSON.parse(response);
+      //console.log(wineReturned);
+      //console.log("hello");
+      if (wineReturned.wines) {
+        updatePage(wineReturned.wines);
+      } else {
+        var fillInRow = $("<tr>");
+        var emptyResults = $("<td>This wine cannot be located</td>");
+        fillInRow.append(emptyResults);
+        $("#wineReturned").append(fillInRow);
+      }
+    });
+  }
 
   //This will add the returned wines to a table the user can select from
   function updatePage(input) {
+    $("#wineReturned").empty();
     console.log("update page");
 
     for (var i = 0; i < input.length; i++) {
