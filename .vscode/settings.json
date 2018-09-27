@@ -1,3 +1,4 @@
 {
-    "editor.parameterHints": false
+    "editor.parameterHints": false,
+    "prettier.tabWidth": 4,
 }
