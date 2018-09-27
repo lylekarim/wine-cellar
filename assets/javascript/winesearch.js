@@ -150,6 +150,7 @@ $(document).ready(function () {
     var wineWorking = wineReturned.wines[working];
     var bottlesToAdd = $("#name-" + working).val();
     updateDatabase(userID, wineWorking, bottlesToAdd);
+    fillHomePage();
   });
 
   //this will populate the cellar in the profile.html
