@@ -158,7 +158,8 @@ $(document).ready(function () {
       wineCode: wine.code,
       varietal: wine.varietal,
       image: wine.image,
-      name: wine.name
+      name: wine.name,
+      price: wine.price
     };
     database.ref("users/" + userID + "/wines").push(updates);
   }
