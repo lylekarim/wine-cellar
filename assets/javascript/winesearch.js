@@ -162,9 +162,9 @@ $(document).ready(function () {
     var working = $(this).attr("data-wine");
     var wineWorking = wineReturned.wines[working];
     var bottlesToAdd = $("#name-" + working).val();
-    fillHomePage();
     updateDatabase(userID, wineWorking, bottlesToAdd);
     $("#name-" + working).val("");
+    fillHomePage();
   });
 
   //this will populate the cellar in the profile.html
@@ -308,36 +308,6 @@ $(document).ready(function () {
       .child("users/" + userID + "/wines/" + key)
       .remove();
     $(`#${thisID}`).remove();
-  });
-
-
-  // Function to empty out the wine
-  function clear() {
-    $("#wine-section").empty();
-  }
-
-  function updateDatabase(userID, wine, amount) {
-    var updates = {
-      amount: amount,
-      wineCode: wine.code,
-      varietal: wine.varietal,
-      image: wine.image,
-      name: wine.name
-    };
-    database.ref("users/" + userID + "/wines").push(updates);
-  }
-  //this adds the chosen wine and number of bottles to a users cellar
-  $(document).on("click", ".chosenWine", function (event) {
-    event.preventDefault();
-
-    //Needs to pull the data from the row for the wine info
-    //returned wines are saved until a new search is initiated
-    //allows for continual references back
-    var working = $(this).attr("data-wine");
-    var wineWorking = wineReturned.wines[working];
-    var bottlesToAdd = $("#name-" + working).val();
-    updateDatabase(userID, wineWorking, bottlesToAdd);
-    fillHomePage();
   });
 
   //this will populate the cellar in the profile.html
